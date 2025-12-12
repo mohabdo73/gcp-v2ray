@@ -1,14 +1,10 @@
-FROM teddysun/v2ray:latest
-
-# Expose the correct container port (8080)
-EXPOSE 8080
-
-# Copy the VLESS config into the container
+# Use the official V2Ray image
+FROM v2fly/v2fly-core:latest
+# Copy the configuration file
 COPY config.json /etc/v2ray/config.json
-
-# Run V2Ray with the config file
-CMD ["v2ray", "run", "-config", "/etc/v2ray/config.json"]
-
-
-# join telegram https://t.me/ragnarservers  for new updates 
-# my telegram username is @Not_Ragnar
+# Copy the entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+# Make the entrypoint script executable
+RUN chmod +x /entrypoint.sh
+# Start the container using the entrypoint script
+CMD ["/entrypoint.sh"]
